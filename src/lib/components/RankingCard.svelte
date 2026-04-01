@@ -12,6 +12,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
     description = '',
     value = '',
     valueLabel = '',
+    valueSubLabel = '',
   } = $props();
 </script>
 
@@ -33,6 +34,9 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
       <span class="value-number">{value}</span>
       {#if valueLabel}
         <span class="value-label">{valueLabel}</span>
+      {/if}
+      {#if valueSubLabel}
+        <span class="value-sub-label">{valueSubLabel}</span>
       {/if}
     </div>
   {/if}
@@ -112,21 +116,36 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
 
   .value {
     flex-shrink: 0;
-    text-align: right;
     margin-left: auto;
+    width: max-content;
+    text-align: left;
   }
 
   .value-number {
     display: block;
+    width: 100%;
     font-size: 1.25rem;
     font-weight: 700;
     line-height: 1.2;
+    text-align: left;
   }
 
   .value-label {
     display: block;
-    font-size: 0.75rem;
+    width: 100%;
+    font-size: 0.8125rem;
     color: var(--color-text-secondary, #555);
     line-height: 1.3;
+    text-align: left;
+  }
+
+  .value-sub-label {
+    display: block;
+    width: 100%;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #555);
+    opacity: 0.65;
+    line-height: 1.3;
+    text-align: left;
   }
 </style>

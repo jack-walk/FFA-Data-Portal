@@ -91,8 +91,9 @@
         title={record.program}
         description={`${record.state}${record.subProgram ? ` • ${record.subProgram}` : ''}${record.rating ? ` • ${record.rating}` : ''}`}
         href={record.planUrl}
-        value={record.relevance || '—'}
-        valueLabel="relevance"
+        value={record.totalSpending}
+        valueLabel={record.totalSpendingLabel}
+        valueSubLabel={record.totalSpendingAsOf}
       />
     {/each}
   </RankingList>
