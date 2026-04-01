@@ -5,6 +5,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
 <script>
   let {
     rank = 0,
+    showRank = true,
     href = '',
     image = '',
     imageAlt = '',
@@ -17,7 +18,9 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
 </script>
 
 {#snippet cardContent()}
-  <span class="rank">{rank}</span>
+  {#if showRank}
+    <span class="rank">{rank}</span>
+  {/if}
   {#if image}
     <div class="thumbnail">
       <img src={image} alt={imageAlt} />
