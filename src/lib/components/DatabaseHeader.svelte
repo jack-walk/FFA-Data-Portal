@@ -13,6 +13,7 @@ layout is single-column and backward-compatible.
     headline = '',
     description = '',
     byline = '',
+    bylineHref = '',
     date = '',
     bgColor = 'var(--color-light-gray)',
     children,
@@ -34,7 +35,13 @@ layout is single-column and backward-compatible.
           <p class="hero-description">{description}</p>
         {/if}
         {#if byline}
-          <p class="hero-byline">{byline}</p>
+          <p class="hero-byline">
+            {#if bylineHref}
+              <a href={bylineHref} target="_blank" rel="noopener noreferrer">{byline}</a>
+            {:else}
+              {byline}
+            {/if}
+          </p>
         {/if}
         {#if date}
           <p class="hero-date">{date}</p>
@@ -96,6 +103,15 @@ layout is single-column and backward-compatible.
     font-size: var(--font-size-base);
     color: var(--color-medium-gray);
     margin: var(--spacing-xxs) 0;
+
+    a {
+      color: inherit;
+      text-decoration: underline;
+
+      &:hover {
+        text-decoration-thickness: 2px;
+      }
+    }
   }
 
   .hero-date {

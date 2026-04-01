@@ -51,10 +51,11 @@
 </script>
 
 <DatabaseHeader
-  headline="Family First Programs Explorer"
-  description="Search and filter state prevention programs from FFA-data.csv"
-  byline="NYCity News Service"
-  date="Updated March 2026"
+  headline="Family First Act spending, by numbers"
+  description="The Family First Act provides federal funding to help states reduce child relinquishment and foster care entries. Here's what programs the states are funding and, where available, how much they have spent."
+  byline="Jack Walker"
+    bylineHref="https://jackwalker.xyz"
+  date="April 1, 2026"
 >
   <div class="controls-grid">
     <div class="search-wrapper">
