@@ -98,7 +98,7 @@
 
 <DatabaseHeader
   headline="What are states spending to keep families together?"
-  description="The Family First Prevention Service Act sets aside federal dollars to help states reduce foster care entry rates. Here’s a look at what programs each state is using their funds on, and how they’re approaching the effort to keep kids out of foster care."
+  description="The Family First Prevention Service Act sets aside federal dollars to help states reduce foster care entry rates. Here’s a look at what programs each state is using their funds on, and how they aim to keep kids out of foster care."
   byline="Jack Walker"
     bylineHref="https://jackwalker.xyz"
   date="April 1, 2026"
