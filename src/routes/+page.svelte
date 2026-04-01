@@ -3,57 +3,109 @@
   import RankingList from '$lib/components/RankingList.svelte';
   import RankingCard from '$lib/components/RankingCard.svelte';
   import SearchInput from '$lib/components/SearchInput.svelte';
+  import DropdownInput from '$lib/components/DropdownInput.svelte';
   import MethodologyBox from '$lib/components/MethodologyBox.svelte';
-  import { base } from '$app/paths';
 
   let { data } = $props();
 
-  let top20 = data.violations
-    .sort((a, b) => a.rank - b.rank)
-    .slice(0, 20);
-
   let search = $state('');
+  let selectedState = $state('');
+  let selectedProgram = $state('');
+
+  let stateOptions = $derived(
+    [...new Set(data.records.map((record) => record.state))]
+      .sort((a, b) => a.localeCompare(b))
+      .map((state) => ({ value: state, label: state }))
+  );
+
+  let programOptions = $derived(
+    [...new Set(
+      data.records
+        .filter((record) => !selectedState || record.state === selectedState)
+        .map((record) => record.program)
+    )]
+      .sort((a, b) => a.localeCompare(b))
+      .map((program) => ({ value: program, label: program }))
+  );
 
   let filtered = $derived(
-    data.violations
-      .filter(b => b.address.toLowerCase().includes(search.toLowerCase()))
-      .sort((a, b) => a.rank - b.rank)
-      .slice(0, 20)
+    data.records
+      .filter((record) => {
+        const query = search.toLowerCase().trim();
+        const matchesSearch = !query || [
+          record.state,
+          record.program,
+          record.subProgram,
+          record.abbreviation,
+          record.rating,
+          record.relevance,
+        ].some((value) => (value || '').toLowerCase().includes(query));
+
+        const matchesState = !selectedState || record.state === selectedState;
+        const matchesProgram = !selectedProgram || record.program === selectedProgram;
+
+        return matchesSearch && matchesState && matchesProgram;
+      })
+      .slice(0, 100)
   );
 </script>
 
 <DatabaseHeader
-  headline="Toxic Home Tracker"
-  description="The Bronx buildings with the most lead paint violations"
+  headline="Family First Programs Explorer"
+  description="Search and filter state prevention programs from FFA-data.csv"
   byline="NYCity News Service"
-  date="March 2026"
+  date="Updated March 2026"
 >
-  <div class="search-wrapper">
-    <SearchInput bind:value={search} placeholder="Search by address..." />
+  <div class="controls-grid">
+    <div class="search-wrapper">
+      <SearchInput bind:value={search} placeholder="Search by state, program, or rating..." />
+    </div>
+    <DropdownInput
+      label="State"
+      placeholder="All states..."
+      options={stateOptions}
+      value={selectedState}
+      onchange={(e) => {
+        selectedState = e.target.value;
+        selectedProgram = '';
+      }}
+    />
+    <DropdownInput
+      label="Program"
+      placeholder="All programs..."
+      options={programOptions}
+      value={selectedProgram}
+      onchange={(e) => {
+        selectedProgram = e.target.value;
+      }}
+    />
   </div>
 </DatabaseHeader>
 
 <div class="container">
-  <RankingList title={search ? `Showing top ${filtered.length} results` : 'Top 20 buildings by open violations'}>
-    {#each filtered as building (building.id)}
+  <RankingList title={`Showing ${filtered.length} ${filtered.length === 1 ? 'result' : 'results'}`}>
+    {#each filtered as record, index (record.id)}
       <RankingCard
-        rank={building.rank}
-        title={building.address}
-        href="{base}/building/{building.id}"
-        value={building.violationCount}
+        rank={index + 1}
+        title={record.program}
+        description={`${record.state}${record.subProgram ? ` • ${record.subProgram}` : ''}${record.rating ? ` • ${record.rating}` : ''}`}
+        href={record.planUrl}
+        value={record.relevance || '—'}
+        valueLabel="relevance"
       />
     {/each}
   </RankingList>
 
   <MethodologyBox>
     <p>
-      The data on this page comes from the Department of Housing Preservation and Development
-      <a href="https://data.cityofnewyork.us/Housing-Development/Housing-Maintenance-Code-Violations/wvxf-dwi5" target="_blank">via New York City's open data portal</a>.
+      The data on this page comes from the Family First dataset in
+      <strong>FFA-data.csv</strong>, with one row per state-program entry.
     </p>
     <p>
-      The citations published by the city were filtered to include only lead paint violations that city inspectors listed as unresolved. The data was filtered to only citations linked to addresses in the Bronx and then aggregated by address. Only addresses with five or more open violations were included in the ranking. The data is current as of March 2026.
+      Use the search field to match text across state, program, sub-program,
+      abbreviation, rating, and relevance. Use the dropdowns to filter by
+      state and program.
     </p>
-    <p>The code that executed the analysis is available as open source on GitHub at <a href="https://github.com/palewire/nyc-hpd-bronx-lead-paint-violations" target="_blank">github.com/palewire/nyc-hpd-bronx-lead-paint-violations</a>.</p>
   </MethodologyBox>
 
 </div>
@@ -64,8 +116,20 @@
     margin: 0 auto;
   }
 
+  .controls-grid {
+    display: grid;
+    gap: var(--spacing-sm);
+  }
+
+  @media (min-width: 900px) {
+    .controls-grid {
+      grid-template-columns: 1.5fr 1fr 1fr;
+      align-items: end;
+    }
+  }
+
 
   .search-wrapper {
-    max-width: 500px;
+    width: 100%;
   }
 </style>
