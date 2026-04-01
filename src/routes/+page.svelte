@@ -137,7 +137,7 @@
 </DatabaseHeader>
 
 <div class="container">
-  <RankingList title="Here are 15 of 265 results displayed at random.">
+  <RankingList title="States fund 265 programs through the Family First Act. Here are 15.">
     {#snippet headerRight()}
       <div class="pagination-controls" aria-label="Results pagination">
         <button type="button" onclick={goToPreviousPage} disabled={currentPage === 1}>Previous 15</button>
