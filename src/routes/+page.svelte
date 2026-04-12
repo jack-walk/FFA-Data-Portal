@@ -269,11 +269,13 @@
 
   <MethodologyBox>
     <p>
-      The data on this page comes from the Family First dataset in
-      <strong>FFA-data.csv</strong>, with one row per state-program entry.
+      Wherever possible, data in this tool was provided directly by a public information officer from each state. Not all states responded; for those that did not, data was obtained through state spending plans posted online, and dollar amounts have generally been omitted.
     </p>
     <p>
-      Use the dropdowns to filter by program and state.
+      Several states provided data that differed from what was listed in their state spending plans, which suggests the data not provided through a public information officer may be inconsistent. The following states provided data directly, making their data more reliable: Colorado, Delaware, Georgia, Idaho, Iowa, Kansas, Maine, Maryland, Michigan, Minnesota, Missouri, Montana, Nebraska, New Jersey, New Mexico, North Carolina, North Dakota, Utah, Vermont, Washington, Wyoming.
+    </p>
+    <p>
+      Some states expressed confusion over the specific spending data requested. Spending information is listed as it was provided by public information officers, but may be updated as states clarify their data further or new spending occurs. <b>The most reliable data in this dataset is the list of programs for which each state public information officer confirmed their state sought federal reimbursement.</b>
     </p>
   </MethodologyBox>
 
