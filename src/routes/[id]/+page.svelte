@@ -1,36 +1,44 @@
 <script>
   let { data } = $props();
   let record = $derived(data.record);
+
+  let detailItems = $derived([
+    { label: 'Sub-Program', value: record.subProgram },
+    { label: 'Abbreviation', value: record.abbreviation },
+    { label: 'Target Age Min', value: record.targetAgeMin },
+    { label: 'Target Age Max', value: record.targetAgeMax },
+    { label: 'Clearinghouse Rating', value: record.clearinghouseRating },
+    { label: 'State Title-IV Spending', value: record.stateTitleIVSpendingFormatted },
+    { label: 'Federal Matching', value: record.federalMatchingFormatted },
+  ].filter((item) => item.value));
 </script>
 
 <div class="container">
-  <h1>{record.state} — {record.program}</h1>
+  <h1>{record.program}</h1>
+  <h2>{record.state}</h2>
+
+  <div class="spending-box">
+    {#if record.totalSpending}
+      <p class="spending-line">{record.state} has spent {record.totalSpending} on this program under the Family First Act.</p>
+      {#if record.dateInfoProvided}
+        <p class="spending-date">Data provided on {record.dateInfoProvided}</p>
+      {/if}
+    {:else}
+      <p class="spending-line">Spending Data Not Available.</p>
+    {/if}
+  </div>
 
   <ul>
-    <li><strong>Index:</strong> {record.index || '—'}</li>
-    <li><strong>State:</strong> {record.state || '—'}</li>
-    <li><strong>Program:</strong> {record.program || '—'}</li>
-    <li><strong>Sub-Program:</strong> {record.subProgram || '—'}</li>
-    <li><strong>Abbreviation:</strong> {record.abbreviation || '—'}</li>
-    <li><strong>Target Age Min:</strong> {record.targetAgeMin || '—'}</li>
-    <li><strong>Target Age Max:</strong> {record.targetAgeMax || '—'}</li>
-    <li><strong>Clearinghouse Rating:</strong> {record.clearinghouseRating || '—'}</li>
-    <li><strong>State Title-IV Spending:</strong> {record.stateTitleIVSpending || '—'}</li>
-    <li><strong>Federal Matching:</strong> {record.federalMatching || '—'}</li>
-    <li><strong>Total Spending:</strong> {record.totalSpending || '—'}</li>
-    <li><strong>Date Info Was Provided:</strong> {record.dateInfoProvided || '—'}</li>
-    <li><strong>Project Relevance:</strong> {record.projectRelevance || '—'}</li>
-    <li><strong>Note 1:</strong> {record.note1 || '—'}</li>
-    <li><strong>Note 2:</strong> {record.note2 || '—'}</li>
-    <li>
-      <strong>Plan URL:</strong>
-      {#if record.planUrl}
-        <a href={record.planUrl} target="_blank" rel="noopener noreferrer">{record.planUrl}</a>
-      {:else}
-        —
-      {/if}
-    </li>
+    {#each detailItems as item (item.label)}
+      <li><strong>{item.label}:</strong> {item.value}</li>
+    {/each}
   </ul>
+
+  {#if record.planUrl}
+    <p class="plan-link-row">
+      <a href={record.planUrl} target="_blank" rel="noopener noreferrer">Access {record.state}'s full Family First Act spending plan at this link.</a>
+    </p>
+  {/if}
 </div>
 
 <style>
@@ -41,11 +49,50 @@
   }
 
   h1 {
+    margin-bottom: var(--spacing-xxs);
+  }
+
+  h2 {
+    margin: 0 0 var(--spacing-md);
+    font-size: var(--font-size-lg);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-secondary, #555);
+  }
+
+  .spending-box {
     margin-bottom: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm, 4px);
+    overflow: hidden;
+    background: var(--color-white, #fff);
+  }
+
+  .spending-line {
+    margin: 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-weight: var(--font-weight-semibold, 600);
+  }
+
+  .spending-date {
+    margin: 0;
+    padding: var(--spacing-xxs) var(--spacing-md) var(--spacing-sm);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary, #555);
+    border-top: 1px solid var(--color-border);
   }
 
   ul {
     padding-left: 1.25rem;
     line-height: 1.6;
+  }
+
+  .plan-link-row {
+    margin-top: var(--spacing-md);
+    font-size: var(--font-size-sm);
+  }
+
+  .plan-link-row a {
+    color: var(--color-text);
+    text-decoration: underline;
   }
 </style>

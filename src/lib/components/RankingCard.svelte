@@ -14,6 +14,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
     value = '',
     valueLabel = '',
     valueSubLabel = '',
+    forceNavigation = false,
   } = $props();
 </script>
 
@@ -46,7 +47,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
 {/snippet}
 
 {#if href}
-  <a href={href} class="ranking-card ranking-card-link">
+  <a href={href} class="ranking-card ranking-card-link" data-sveltekit-reload={forceNavigation ? true : undefined}>
     {@render cardContent()}
   </a>
 {:else}
@@ -78,7 +79,8 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
     flex-shrink: 0;
     font-size: 1.5rem;
     font-weight: 700;
-    min-width: 2ch;
+    width: 3ch;
+    min-width: 3ch;
     text-align: center;
     color: var(--color-accent, #003da5);
   }
@@ -120,7 +122,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
   .value {
     flex-shrink: 0;
     margin-left: auto;
-    width: max-content;
+    width: 16ch;
     text-align: left;
   }
 
@@ -131,6 +133,7 @@ RankingCard.svelte — A horizontal card showing rank, optional image, title, an
     font-weight: 700;
     line-height: 1.2;
     text-align: left;
+    font-variant-numeric: tabular-nums;
   }
 
   .value-label {

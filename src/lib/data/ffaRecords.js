@@ -3,8 +3,8 @@ import csvText from '$lib/data/FFA-data.csv?raw';
 const currencyFormatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
-  minimumFractionDigits: 2,
-  maximumFractionDigits: 2,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 0,
 });
 
 const dateFormatter = new Intl.DateTimeFormat('en-US', {
@@ -53,6 +53,7 @@ const STATE_ABBREVIATIONS = {
   Oklahoma: 'OK',
   Oregon: 'OR',
   Pennsylvania: 'PA',
+  'Puerto Rico': 'PR',
   'Rhode Island': 'RI',
   'South Carolina': 'SC',
   'South Dakota': 'SD',
@@ -202,6 +203,8 @@ export const records = parseCsv(csvText)
       clearinghouseRating: row['Clearhouse Rating'],
       stateTitleIVSpending: row['State Title-IV Spending'],
       federalMatching: row['Federal Matching'],
+      stateTitleIVSpendingFormatted: stateSpending === null ? '' : currencyFormatter.format(Math.round(stateSpending)),
+      federalMatchingFormatted: federalSpending === null ? '' : currencyFormatter.format(Math.round(federalSpending)),
       dateInfoProvided: row['Date Info Was Provided'],
       relevance: row['Project Relevance'],
       projectRelevance: row['Project Relevance'],
@@ -209,7 +212,7 @@ export const records = parseCsv(csvText)
       note2: row['Note 2'],
       planUrl: row['Plan URL'],
       totalSpending,
-      totalSpendingLabel: totalSpending ? 'total spending' : '',
+      totalSpendingLabel: totalSpending ? 'total state spending' : '',
       totalSpendingAsOf: (totalSpending && asOfDate) ? `as of ${asOfDate}` : '',
     };
   });

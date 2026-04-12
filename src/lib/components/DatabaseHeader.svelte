@@ -66,7 +66,7 @@ layout is single-column and backward-compatible.
 
   .hero-header {
     width: 100%;
-    padding: var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md) var(--spacing-md);
   }
 
   .hero-inner {
@@ -146,7 +146,7 @@ layout is single-column and backward-compatible.
 
   @include tablet {
     .hero-header {
-      padding: var(--spacing-xxl) var(--spacing-md);
+      padding: var(--spacing-xxl) var(--spacing-md) var(--spacing-lg);
     }
 
     .hero-inner.has-graphic {
